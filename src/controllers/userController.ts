@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import e, { Request, Response, NextFunction } from 'express';
 import User, { userRoles } from '../models/userModel';
 import { createTokens } from '../utils/token';
 import { HttpError, HttpStatusCode } from '../utils/errorCodes';
@@ -16,6 +16,11 @@ class UserController {
 
       const userCount = await User.count();
       const role = userCount === 0 ? userRoles.ADMIN : userRoles.VIEWER;
+
+      const existingUser = await User.findOne({ where: { email } });
+      if (existingUser) {
+        throw new HttpError('User already exists', HttpStatusCode.CONFLICT);
+      }
 
       const user = await User.create({
         email,
@@ -170,8 +175,9 @@ class UserController {
 
       user.password = newPassword;
       await user.save();
-
-      res.status(HttpStatusCode.NO_CONTENT).send();
+      res.status(HttpStatusCode.OK).json({
+        message: 'Password updated successfully'
+      });
     } catch (error) {
       next(error);
     }

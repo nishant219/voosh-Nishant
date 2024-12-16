@@ -134,8 +134,14 @@ class ArtistController {
       if (hidden !== undefined) artist.hidden = hidden;
 
       await artist.save();
-
-      res.status(HttpStatusCode.NO_CONTENT).send();
+      res.status(HttpStatusCode.OK).json({
+        message: 'Artist updated successfully',
+        artist: {
+          id: artist.id,
+          name: artist.name,
+          grammy: artist.grammy
+        }
+      });
     } catch (error) {
       next(error);
     }
