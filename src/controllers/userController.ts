@@ -111,6 +111,23 @@ class UserController {
     }
   }
 
+  //get all admins 
+  static async getAdmins(req: Request, res: Response, next: NextFunction) {
+    try {
+      const admins = await User.findAll({
+        where: { role: userRoles.ADMIN },
+        attributes: ['id', 'email']
+      });
+
+      res.status(HttpStatusCode.OK).json({
+        message: 'Admins retrieved successfully',
+        admins
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async getUsers(req: Request, res: Response, next: NextFunction) {
     try {
       const users = await User.findAll({

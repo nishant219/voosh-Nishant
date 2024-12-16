@@ -10,6 +10,9 @@ router.post('/signup', UserController.signup);
 router.post('/login', UserController.login);
 router.post('/logout', authMiddleware.authenticate, UserController.logout);
 
+//get all admins
+router.get('/admins', UserController.getAdmins);
+
 // User Management Routes (Admin only)
 router.get('/users',
   authMiddleware.authenticate,
