@@ -1,23 +1,26 @@
 {
-	"version": 2,
-	"builds": [
-		{
-			"src": "dist/index.js",
-			"use": "@vercel/node",
-			"config": { "includeFiles": ["dist/**"] }
-		}
-	],
-	"routes": [
-		{
-			"src": "/(.*)",
-			"dest": "dist/index.js"
-		}
-	],
+    "version": 2,
+    "name": "music-library-api",
+    "builds": [
+      {
+        "src": "dist/app.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "dist/app.js"
+      }
+    ],
     "env": {
-      "DB_HOST": "@db_host",
-      "DB_PORT": "@db_port",
-      "DB_NAME": "@db_name",
-      "DB_USER": "@db_user",
-      "DB_PASSWORD": "@db_password"
+      "DATABASE_URL": "@database_url",
+      "JWT_SECRET": "@jwt_secret",
+      "NODE_ENV": "production"
+    },
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
+    "engine": {
+      "node": "20.x"
     }
   }
