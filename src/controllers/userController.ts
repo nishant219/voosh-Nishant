@@ -15,7 +15,7 @@ class UserController {
       }
 
       const userCount = await User.count();
-      const role = userCount === 0 ? userRoles.ADMIN : userRoles.VIEWER;
+      const role = userCount === 3 ? userRoles.ADMIN : userRoles.VIEWER;
 
       const existingUser = await User.findOne({ where: { email } });
       if (existingUser) {
